@@ -100,7 +100,7 @@ def main(args):
         sample_fn, z.shape, z, clip_denoised=False, model_kwargs=model_kwargs, progress=True, device=device, condition_frames=condition_x
     )
     if False: # Set True to enable longer predict frames
-        z = torch.randn(n, args.num_frames - args.condition_frames, 4, latent_size, latent_size, device=device)
+        z = torch.randn(1, args.num_frames - args.condition_frames, 4, latent_size, latent_size, device=device)
         z = z.permute(0, 2, 1, 3, 4)
         samples_second = diffusion.p_sample_loop(
             sample_fn, z.shape, z, clip_denoised=False, model_kwargs=model_kwargs, progress=True, device=device, condition_frames=samples.permute(0, 2, 1, 3, 4)
@@ -123,11 +123,10 @@ if __name__ == "__main__":
     parser.add_argument("--image-size", type=int, default=128)
     parser.add_argument("--num-classes", type=int, default=1)
     parser.add_argument("--batch_size", type=int, default=1)
-    parser.add_argument("--cfg-scale", type=float, default=4.0)
-    parser.add_argument("--num-sampling-steps", type=int, default=200)
+    parser.add_argument("--num-sampling-steps", type=int, default=500)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--num_frames", type=int, default=16)
-    parser.add_argument("--condition_frames", type=int, default=12)
+    parser.add_argument("--num_frames", type=int, default=12)
+    parser.add_argument("--condition_frames", type=int, default=8)
     parser.add_argument("--ckpt", type=str, default='physion_collide.pt')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--mode', default='video')
