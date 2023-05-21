@@ -24,7 +24,7 @@ Extensive experiments on video generation, prediction, and dynamics modeling (i.
 <pre/>conda activate VDT</pre> 
 
 ## Checkpoint
-We now provide Physion_Collide checkpoint for conditional generation. You can download it from here.
+We now provide Physion_Collide checkpoint for Physion-Collision conditional generation (video prediction). You can download it from <a href="https://drive.google.com/file/d/108XteBW8omQhGOqwkS4Rnd1YfzOxN3YL/view?usp=sharing">here</a> .
 
 
 ## Inference
