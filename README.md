@@ -1,5 +1,5 @@
 # VDT
-[ICLR2024] The official implementation of paper "VDT: An Empirical Study for Video Diffusion with Transformers", by Haoyu Lu, Guoxing Yang, Nanyi Fei, Yuqi Huo, Zhiwu Lu, Ping Luo, Mingyu Ding.
+[ICLR2024] The official implementation of paper "VDT: General-purpose Video Diffusion Transformers via Mask Modeling", by Haoyu Lu, Guoxing Yang, Nanyi Fei, Yuqi Huo, Zhiwu Lu, Ping Luo, Mingyu Ding.
 
 <img src="VDT.png" width="700">
 
