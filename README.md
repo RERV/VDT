@@ -7,10 +7,9 @@
 This work introduces Video Diffusion Transformer (VDT), which pioneers the use of transformers in diffusion-based video generation.
 It features transformer blocks with modularized temporal and spatial attention modules, allowing separate optimization of each component and leveraging the rich spatial-temporal representation inherited from transformers.
 
-VDT offers several appealing benefits.
-(1) It excels at capturing temporal dependencies to produce temporally consistent video frames and even simulate the dynamics of 3D objects over time.
-(2) It enables flexible conditioning information through simple concatenation in the token space, effectively unifying video generation and prediction tasks.
-(3) Its modularized design facilitates a spatial-temporal decoupled training strategy, leading to improved efficiency. 
+1) It excels at capturing temporal dependencies to produce temporally consistent video frames and even simulate the physics and dynamics of 3D objects over time. 
+2) It facilitates flexible conditioning information, e.g., simple concatenation in the token space, effectively unifying different token lengths and modalities. 
+3) Pairing with our proposed spatial-temporal mask modeling mechanism, it becomes a general-purpose video diffuser for harnessing a range of tasks, including unconditional generation, video prediction, interpolation, animation, and completion, etc
 
 <img src="example.png" width="700">
 
