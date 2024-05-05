@@ -16,6 +16,24 @@ VDT offers several appealing benefits.
 
 Extensive experiments on video generation, prediction, and dynamics modeling (i.e., physics-based QA) tasks have been conducted to demonstrate the effectiveness of VDT in various scenarios, including autonomous driving, human action, and physics-based simulation.
 
+## Release
+
+<details>
+<summary>✅ <b>2024-05-05</b>: Release spatial-temporal mask modeling code and inference code.
+</details>
+
+
+<details>
+<summary>✅ <b>2024-01-27</b>: Our VDT has been accepted by ICLR2024.
+
+</details>
+
+<details>
+<summary>✅ <b>2023-05-22</b>: We propose Video Diffusion Transformer (VDT) model and release checkpoint and inference code. 
+
+</details>
+
+
 ## Getting Started
 
 - Python3, PyTorch>=1.8.0, torchvision>=0.7.0 are required for the current codebase.
@@ -24,17 +42,12 @@ Extensive experiments on video generation, prediction, and dynamics modeling (i.
 <pre/>conda activate VDT</pre> 
 
 ## Checkpoint
-We now provide Physion_Collide checkpoint for Physion-Collision conditional generation (video prediction). You can download it from <a href="https://drive.google.com/file/d/108XteBW8omQhGOqwkS4Rnd1YfzOxN3YL/view?usp=sharing">here</a> .
+We now provide checkpoint for Sky Time-Lapse unified generation. You can download it from <a href="https://drive.google.com/file/d/1WIAOm4n0HkmOHMhUj3y6wLLemtz_Xj8b/view?usp=sharing">here</a>.
 
 
 ## Inference
-We provide inference script on physion_collide video prediction. To sample results, you can first download the checkpoint, then run:
-
-<pre/>python physion_sample.py --ckpt $CHECKPOINT_PATH </pre> 
-
-
-### We also provide a simple demo in inference_physion.ipynb, have fun!
+We provide inference ipynb on Sky Time-Lapse unified generation (predict, backward, unconditional, single-frame, arbitrary interpolation, spatial_temporal). To sample results, you can first download the checkpoint, then run inference.ipynb, have fun!
 
 
 ## Acknowledgement
-Our codebase is built based on DiT, SlotFormer and MVCD. We thank the authors for the nicely organized code!
+Our codebase is built based on DiT, BEiT, SlotFormer and MVCD. We thank the authors for the nicely organized code!

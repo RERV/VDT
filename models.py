@@ -1,12 +1,16 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-# All rights reserved.
+"""
+Originally inspired by impl at https://github.com/facebookresearch/DiT/blob/main/models.py
 
+Modified by Haoyu Lu, for video diffusion transformer
+"""
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 # --------------------------------------------------------
 # References:
 # GLIDE: https://github.com/openai/glide-text2im
 # MAE: https://github.com/facebookresearch/mae/blob/main/models_mae.py
+# DiT: https://github.com/facebookresearch/DiT/blob/main/models.py
+# 
 # --------------------------------------------------------
 
 import torch
@@ -25,7 +29,6 @@ def modulate(x, shift, scale, T):
     x = x * (1 + scale.unsqueeze(1)) + shift.unsqueeze(1)
     x = rearrange(x, 'b (t n) m-> (b t) n m',b=B,t=T,n=N,m=M)
     return x
-
 
 
 #################################################################################
@@ -158,14 +161,12 @@ class VDTBlock(nn.Module):
         K, N, M = x.shape
         B = K // T
         if self.mode == 'video':
-
             x = rearrange(x, '(b t) n m -> (b n) t m',b=B,t=T,n=N,m=M)
             res_temporal = self.temporal_attn(self.temporal_norm1(x))
             res_temporal = rearrange(res_temporal, '(b n) t m -> (b t) n m',b=B,t=T,n=N,m=M)
             res_temporal = self.temporal_fc(res_temporal)
             x = rearrange(x, '(b n) t m -> (b t) n m',b=B,t=T,n=N,m=M)
             x = x + res_temporal
-
 
         attn = self.attn(modulate(self.norm1(x), shift_msa, scale_msa, self.num_frames))
         attn = rearrange(attn, '(b t) n m-> b (t n) m',b=B,t=T,n=N,m=M)
@@ -178,7 +179,6 @@ class VDTBlock(nn.Module):
         mlp = gate_mlp.unsqueeze(1) * mlp
         mlp = rearrange(mlp, 'b (t n) m-> (b t) n m',b=B,t=T,n=N,m=M)
         x = x + mlp
-
 
         return x
 
@@ -316,7 +316,7 @@ class VDT(nn.Module):
         imgs = x.reshape(shape=(x.shape[0], c, h * p, h * p))
         return imgs
 
-    def forward(self, x, t, y):
+    def forward(self, x, t):
         """
         Forward pass of VDT.
         x: (N, C, H, W) tensor of spatial inputs (images or latent representations of images)
@@ -324,19 +324,21 @@ class VDT(nn.Module):
         y: (N,) tensor of class labels
         """
         
-        B, T, C, W, H = x.shape 
+        B, T, C, W, H = x.shape # 32 16 4 8 8 
         x = x.contiguous().view(-1, C, W, H)
+        y = torch.zeros(B).long().to(x.device)
         x = self.x_embedder(x) + self.pos_embed  # (N, T, D), where T = H * W / patch_size ** 2
         if self.mode == 'video':
             # Temporal embed
             x = rearrange(x, '(b t) n m -> (b n) t m',b=B,t=T)
+            ## Resizing time embeddings in case they don't match
             x = x + self.time_embed
             x = self.time_drop(x)
             x = rearrange(x, '(b n) t m -> (b t) n m',b=B,t=T)
         
         t = self.t_embedder(t)                   # (N, D)
         y = self.y_embedder(y, self.training)    # (N, D)
-
+  
         c = t + y                             # (N, D)
 
         for block in self.blocks:
@@ -433,6 +435,6 @@ def VDT_S_2(**kwargs):
 
 
 VDT_models = {
-    'VDT-L/2':  VDT_L_2,  
-    'VDT-S/2':  VDT_S_2, 
+    'VDT-L/2':  VDT_L_2,
+    'VDT-S/2':  VDT_S_2,   
 }
